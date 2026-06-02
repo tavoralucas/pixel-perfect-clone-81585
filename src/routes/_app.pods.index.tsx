@@ -53,15 +53,17 @@ function PodsPage() {
                 </div>
 
                 <div className="flex gap-2">
-                  <Link
-                    to="/pods/$podName/console"
-                    params={{ podName: p.name }}
-                    {...(p.status !== "Rodando" ? { disabled: true, "aria-disabled": true, tabIndex: -1, onClick: (e: React.MouseEvent) => e.preventDefault() } as never : {})}
-                  >
-                    <Btn variant="secondary" size="sm" disabled={p.status !== "Rodando"}>
+                  {p.status === "Rodando" ? (
+                    <Link to="/pods/$podName/console" params={{ podName: p.name }}>
+                      <Btn variant="secondary" size="sm">
+                        <TerminalSquare className="h-4 w-4" /> Conectar Console
+                      </Btn>
+                    </Link>
+                  ) : (
+                    <Btn variant="secondary" size="sm" disabled>
                       <TerminalSquare className="h-4 w-4" /> Conectar Console
                     </Btn>
-                  </Link>
+                  )}
                   <Btn variant="secondary" size="sm"><Square className="h-4 w-4" /> Parar</Btn>
                   <Btn variant="ghost" size="sm"><Trash2 className="h-4 w-4" /></Btn>
                 </div>
