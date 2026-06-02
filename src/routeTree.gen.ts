@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppPodsIndexRouteImport } from './routes/_app.pods.index'
+import { Route as AppPodsSshKeysRouteImport } from './routes/_app.pods.ssh-keys'
 import { Route as AppPodsDeployRouteImport } from './routes/_app.pods.deploy'
 import { Route as AppApiUsageRouteImport } from './routes/_app.api.usage'
 import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
@@ -35,6 +36,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppPodsIndexRoute = AppPodsIndexRouteImport.update({
   id: '/pods/',
   path: '/pods/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPodsSshKeysRoute = AppPodsSshKeysRouteImport.update({
+  id: '/pods/ssh-keys',
+  path: '/pods/ssh-keys',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPodsDeployRoute = AppPodsDeployRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
   '/pods/deploy': typeof AppPodsDeployRoute
+  '/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
   '/pods/deploy': typeof AppPodsDeployRoute
+  '/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/pods': typeof AppPodsIndexRoute
 }
 export interface FileRoutesById {
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/_app/api/keys': typeof AppApiKeysRoute
   '/_app/api/usage': typeof AppApiUsageRoute
   '/_app/pods/deploy': typeof AppPodsDeployRoute
+  '/_app/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/_app/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/api/keys'
     | '/api/usage'
     | '/pods/deploy'
+    | '/pods/ssh-keys'
     | '/pods/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/api/keys'
     | '/api/usage'
     | '/pods/deploy'
+    | '/pods/ssh-keys'
     | '/pods'
   id:
     | '__root__'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/_app/api/keys'
     | '/_app/api/usage'
     | '/_app/pods/deploy'
+    | '/_app/pods/ssh-keys'
     | '/_app/pods/'
   fileRoutesById: FileRoutesById
 }
@@ -151,6 +163,13 @@ declare module '@tanstack/react-router' {
       path: '/pods'
       fullPath: '/pods/'
       preLoaderRoute: typeof AppPodsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pods/ssh-keys': {
+      id: '/_app/pods/ssh-keys'
+      path: '/pods/ssh-keys'
+      fullPath: '/pods/ssh-keys'
+      preLoaderRoute: typeof AppPodsSshKeysRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/pods/deploy': {
@@ -190,6 +209,7 @@ interface AppRouteChildren {
   AppApiKeysRoute: typeof AppApiKeysRoute
   AppApiUsageRoute: typeof AppApiUsageRoute
   AppPodsDeployRoute: typeof AppPodsDeployRoute
+  AppPodsSshKeysRoute: typeof AppPodsSshKeysRoute
   AppPodsIndexRoute: typeof AppPodsIndexRoute
 }
 
@@ -199,6 +219,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppApiKeysRoute: AppApiKeysRoute,
   AppApiUsageRoute: AppApiUsageRoute,
   AppPodsDeployRoute: AppPodsDeployRoute,
+  AppPodsSshKeysRoute: AppPodsSshKeysRoute,
   AppPodsIndexRoute: AppPodsIndexRoute,
 }
 
