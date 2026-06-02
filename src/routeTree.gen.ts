@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppPodsIndexRouteImport } from './routes/_app.pods.index'
 import { Route as AppApiUsageRouteImport } from './routes/_app.api.usage'
 import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
 import { Route as AppApiCatalogRouteImport } from './routes/_app.api.catalog'
@@ -28,6 +29,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPodsIndexRoute = AppPodsIndexRouteImport.update({
+  id: '/pods/',
+  path: '/pods/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppApiUsageRoute = AppApiUsageRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
+  '/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
+  '/pods': typeof AppPodsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +76,19 @@ export interface FileRoutesById {
   '/_app/api/catalog': typeof AppApiCatalogRoute
   '/_app/api/keys': typeof AppApiKeysRoute
   '/_app/api/usage': typeof AppApiUsageRoute
+  '/_app/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/api/catalog' | '/api/keys' | '/api/usage'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/api/catalog'
+    | '/api/keys'
+    | '/api/usage'
+    | '/pods/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/api/catalog' | '/api/keys' | '/api/usage'
+  to: '/' | '/dashboard' | '/api/catalog' | '/api/keys' | '/api/usage' | '/pods'
   id:
     | '__root__'
     | '/'
@@ -82,6 +97,7 @@ export interface FileRouteTypes {
     | '/_app/api/catalog'
     | '/_app/api/keys'
     | '/_app/api/usage'
+    | '/_app/pods/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -110,6 +126,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pods/': {
+      id: '/_app/pods/'
+      path: '/pods'
+      fullPath: '/pods/'
+      preLoaderRoute: typeof AppPodsIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/api/usage': {
@@ -141,6 +164,7 @@ interface AppRouteChildren {
   AppApiCatalogRoute: typeof AppApiCatalogRoute
   AppApiKeysRoute: typeof AppApiKeysRoute
   AppApiUsageRoute: typeof AppApiUsageRoute
+  AppPodsIndexRoute: typeof AppPodsIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -148,6 +172,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppApiCatalogRoute: AppApiCatalogRoute,
   AppApiKeysRoute: AppApiKeysRoute,
   AppApiUsageRoute: AppApiUsageRoute,
+  AppPodsIndexRoute: AppPodsIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
