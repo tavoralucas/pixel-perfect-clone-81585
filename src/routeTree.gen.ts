@@ -22,6 +22,7 @@ import { Route as AppPodsDeployRouteImport } from './routes/_app.pods.deploy'
 import { Route as AppApiUsageRouteImport } from './routes/_app.api.usage'
 import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
 import { Route as AppApiCatalogRouteImport } from './routes/_app.api.catalog'
+import { Route as AppPodsPodNameConsoleRouteImport } from './routes/_app.pods.$podName.console'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -87,6 +88,11 @@ const AppApiCatalogRoute = AppApiCatalogRouteImport.update({
   path: '/api/catalog',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPodsPodNameConsoleRoute = AppPodsPodNameConsoleRouteImport.update({
+  id: '/pods/$podName/console',
+  path: '/pods/$podName/console',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/pods/templates': typeof AppPodsTemplatesRoute
   '/pods/': typeof AppPodsIndexRoute
+  '/pods/$podName/console': typeof AppPodsPodNameConsoleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/pods/templates': typeof AppPodsTemplatesRoute
   '/pods': typeof AppPodsIndexRoute
+  '/pods/$podName/console': typeof AppPodsPodNameConsoleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/_app/pods/ssh-keys': typeof AppPodsSshKeysRoute
   '/_app/pods/templates': typeof AppPodsTemplatesRoute
   '/_app/pods/': typeof AppPodsIndexRoute
+  '/_app/pods/$podName/console': typeof AppPodsPodNameConsoleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/pods/ssh-keys'
     | '/pods/templates'
     | '/pods/'
+    | '/pods/$podName/console'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/pods/ssh-keys'
     | '/pods/templates'
     | '/pods'
+    | '/pods/$podName/console'
   id:
     | '__root__'
     | '/'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/_app/pods/ssh-keys'
     | '/_app/pods/templates'
     | '/_app/pods/'
+    | '/_app/pods/$podName/console'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -276,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppApiCatalogRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/pods/$podName/console': {
+      id: '/_app/pods/$podName/console'
+      path: '/pods/$podName/console'
+      fullPath: '/pods/$podName/console'
+      preLoaderRoute: typeof AppPodsPodNameConsoleRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -291,6 +310,7 @@ interface AppRouteChildren {
   AppPodsSshKeysRoute: typeof AppPodsSshKeysRoute
   AppPodsTemplatesRoute: typeof AppPodsTemplatesRoute
   AppPodsIndexRoute: typeof AppPodsIndexRoute
+  AppPodsPodNameConsoleRoute: typeof AppPodsPodNameConsoleRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -305,6 +325,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPodsSshKeysRoute: AppPodsSshKeysRoute,
   AppPodsTemplatesRoute: AppPodsTemplatesRoute,
   AppPodsIndexRoute: AppPodsIndexRoute,
+  AppPodsPodNameConsoleRoute: AppPodsPodNameConsoleRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -316,13 +337,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
