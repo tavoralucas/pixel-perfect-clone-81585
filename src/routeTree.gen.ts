@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
+import { Route as AppApiCatalogRouteImport } from './routes/_app.api.catalog'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -33,15 +34,22 @@ const AppApiKeysRoute = AppApiKeysRouteImport.update({
   path: '/api/keys',
   getParentRoute: () => AppRoute,
 } as any)
+const AppApiCatalogRoute = AppApiCatalogRouteImport.update({
+  id: '/api/catalog',
+  path: '/api/catalog',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
+  '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
+  '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRoutesById {
@@ -49,14 +57,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/api/catalog': typeof AppApiCatalogRoute
   '/_app/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/api/keys'
+  fullPaths: '/' | '/dashboard' | '/api/catalog' | '/api/keys'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/api/keys'
-  id: '__root__' | '/' | '/_app' | '/_app/dashboard' | '/_app/api/keys'
+  to: '/' | '/dashboard' | '/api/catalog' | '/api/keys'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/dashboard'
+    | '/_app/api/catalog'
+    | '/_app/api/keys'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,16 +109,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppApiKeysRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/api/catalog': {
+      id: '/_app/api/catalog'
+      path: '/api/catalog'
+      fullPath: '/api/catalog'
+      preLoaderRoute: typeof AppApiCatalogRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppApiCatalogRoute: typeof AppApiCatalogRoute
   AppApiKeysRoute: typeof AppApiKeysRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppApiCatalogRoute: AppApiCatalogRoute,
   AppApiKeysRoute: AppApiKeysRoute,
 }
 
