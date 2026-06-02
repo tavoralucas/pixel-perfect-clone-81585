@@ -2,7 +2,7 @@ import { Bell, Search, Menu, Briefcase, ChevronDown } from "lucide-react";
 
 export function Topbar() {
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-border bg-surface px-4 md:px-6">
+    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-border bg-surface px-4 md:px-6">
       {/* Logo + menu */}
       <div className="flex items-center gap-3 shrink-0">
         <div className="flex items-center">
