@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -27,27 +28,35 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
+const AppApiKeysRoute = AppApiKeysRouteImport.update({
+  id: '/api/keys',
+  path: '/api/keys',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
+  '/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
+  '/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/api/keys': typeof AppApiKeysRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths: '/' | '/dashboard' | '/api/keys'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/_app' | '/_app/dashboard'
+  to: '/' | '/dashboard' | '/api/keys'
+  id: '__root__' | '/' | '/_app' | '/_app/dashboard' | '/_app/api/keys'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,15 +87,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/api/keys': {
+      id: '/_app/api/keys'
+      path: '/api/keys'
+      fullPath: '/api/keys'
+      preLoaderRoute: typeof AppApiKeysRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppApiKeysRoute: typeof AppApiKeysRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppApiKeysRoute: AppApiKeysRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
