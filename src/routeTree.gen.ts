@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppBillingRouteImport } from './routes/_app.billing'
 import { Route as AppPodsIndexRouteImport } from './routes/_app.pods.index'
 import { Route as AppPodsTemplatesRouteImport } from './routes/_app.pods.templates'
 import { Route as AppPodsSshKeysRouteImport } from './routes/_app.pods.ssh-keys'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBillingRoute = AppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPodsIndexRoute = AppPodsIndexRouteImport.update({
@@ -78,6 +84,7 @@ const AppApiCatalogRoute = AppApiCatalogRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/billing': typeof AppBillingRoute
   '/dashboard': typeof AppDashboardRoute
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/billing': typeof AppBillingRoute
   '/dashboard': typeof AppDashboardRoute
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
+  '/_app/billing': typeof AppBillingRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/api/catalog': typeof AppApiCatalogRoute
   '/_app/api/keys': typeof AppApiKeysRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/billing'
     | '/dashboard'
     | '/api/catalog'
     | '/api/keys'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/billing'
     | '/dashboard'
     | '/api/catalog'
     | '/api/keys'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_app'
+    | '/_app/billing'
     | '/_app/dashboard'
     | '/_app/api/catalog'
     | '/_app/api/keys'
@@ -180,6 +192,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/billing': {
+      id: '/_app/billing'
+      path: '/billing'
+      fullPath: '/billing'
+      preLoaderRoute: typeof AppBillingRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/pods/': {
@@ -242,6 +261,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppBillingRoute: typeof AppBillingRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppApiCatalogRoute: typeof AppApiCatalogRoute
   AppApiKeysRoute: typeof AppApiKeysRoute
@@ -254,6 +274,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppBillingRoute: AppBillingRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppApiCatalogRoute: AppApiCatalogRoute,
   AppApiKeysRoute: AppApiKeysRoute,
