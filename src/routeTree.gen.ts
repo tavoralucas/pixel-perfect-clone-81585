@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppBillingRouteImport } from './routes/_app.billing'
 import { Route as AppPodsIndexRouteImport } from './routes/_app.pods.index'
@@ -30,6 +31,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/billing': typeof AppBillingRoute
   '/dashboard': typeof AppDashboardRoute
+  '/settings': typeof AppSettingsRoute
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/billing': typeof AppBillingRoute
   '/dashboard': typeof AppDashboardRoute
+  '/settings': typeof AppSettingsRoute
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_app/billing': typeof AppBillingRoute
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/settings': typeof AppSettingsRoute
   '/_app/api/catalog': typeof AppApiCatalogRoute
   '/_app/api/keys': typeof AppApiKeysRoute
   '/_app/api/usage': typeof AppApiUsageRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/billing'
     | '/dashboard'
+    | '/settings'
     | '/api/catalog'
     | '/api/keys'
     | '/api/usage'
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/'
     | '/billing'
     | '/dashboard'
+    | '/settings'
     | '/api/catalog'
     | '/api/keys'
     | '/api/usage'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/_app/billing'
     | '/_app/dashboard'
+    | '/_app/settings'
     | '/_app/api/catalog'
     | '/_app/api/keys'
     | '/_app/api/usage'
@@ -186,6 +198,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
       id: '/_app/dashboard'
@@ -263,6 +282,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppBillingRoute: typeof AppBillingRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppApiCatalogRoute: typeof AppApiCatalogRoute
   AppApiKeysRoute: typeof AppApiKeysRoute
   AppApiUsageRoute: typeof AppApiUsageRoute
@@ -276,6 +296,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppBillingRoute: AppBillingRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppApiCatalogRoute: AppApiCatalogRoute,
   AppApiKeysRoute: AppApiKeysRoute,
   AppApiUsageRoute: AppApiUsageRoute,
