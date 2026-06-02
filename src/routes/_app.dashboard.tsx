@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, PageHeader, Badge, Btn } from "@/components/ui-kit";
 import { recentActivity, usageSeries } from "@/lib/mockData";
 import {
