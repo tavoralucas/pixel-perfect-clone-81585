@@ -13,6 +13,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppPodsIndexRouteImport } from './routes/_app.pods.index'
+import { Route as AppPodsDeployRouteImport } from './routes/_app.pods.deploy'
 import { Route as AppApiUsageRouteImport } from './routes/_app.api.usage'
 import { Route as AppApiKeysRouteImport } from './routes/_app.api.keys'
 import { Route as AppApiCatalogRouteImport } from './routes/_app.api.catalog'
@@ -34,6 +35,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppPodsIndexRoute = AppPodsIndexRouteImport.update({
   id: '/pods/',
   path: '/pods/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPodsDeployRoute = AppPodsDeployRouteImport.update({
+  id: '/pods/deploy',
+  path: '/pods/deploy',
   getParentRoute: () => AppRoute,
 } as any)
 const AppApiUsageRoute = AppApiUsageRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
+  '/pods/deploy': typeof AppPodsDeployRoute
   '/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/api/catalog': typeof AppApiCatalogRoute
   '/api/keys': typeof AppApiKeysRoute
   '/api/usage': typeof AppApiUsageRoute
+  '/pods/deploy': typeof AppPodsDeployRoute
   '/pods': typeof AppPodsIndexRoute
 }
 export interface FileRoutesById {
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/_app/api/catalog': typeof AppApiCatalogRoute
   '/_app/api/keys': typeof AppApiKeysRoute
   '/_app/api/usage': typeof AppApiUsageRoute
+  '/_app/pods/deploy': typeof AppPodsDeployRoute
   '/_app/pods/': typeof AppPodsIndexRoute
 }
 export interface FileRouteTypes {
@@ -86,9 +95,17 @@ export interface FileRouteTypes {
     | '/api/catalog'
     | '/api/keys'
     | '/api/usage'
+    | '/pods/deploy'
     | '/pods/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/api/catalog' | '/api/keys' | '/api/usage' | '/pods'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/api/catalog'
+    | '/api/keys'
+    | '/api/usage'
+    | '/pods/deploy'
+    | '/pods'
   id:
     | '__root__'
     | '/'
@@ -97,6 +114,7 @@ export interface FileRouteTypes {
     | '/_app/api/catalog'
     | '/_app/api/keys'
     | '/_app/api/usage'
+    | '/_app/pods/deploy'
     | '/_app/pods/'
   fileRoutesById: FileRoutesById
 }
@@ -135,6 +153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPodsIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/pods/deploy': {
+      id: '/_app/pods/deploy'
+      path: '/pods/deploy'
+      fullPath: '/pods/deploy'
+      preLoaderRoute: typeof AppPodsDeployRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/api/usage': {
       id: '/_app/api/usage'
       path: '/api/usage'
@@ -164,6 +189,7 @@ interface AppRouteChildren {
   AppApiCatalogRoute: typeof AppApiCatalogRoute
   AppApiKeysRoute: typeof AppApiKeysRoute
   AppApiUsageRoute: typeof AppApiUsageRoute
+  AppPodsDeployRoute: typeof AppPodsDeployRoute
   AppPodsIndexRoute: typeof AppPodsIndexRoute
 }
 
@@ -172,6 +198,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppApiCatalogRoute: AppApiCatalogRoute,
   AppApiKeysRoute: AppApiKeysRoute,
   AppApiUsageRoute: AppApiUsageRoute,
+  AppPodsDeployRoute: AppPodsDeployRoute,
   AppPodsIndexRoute: AppPodsIndexRoute,
 }
 
