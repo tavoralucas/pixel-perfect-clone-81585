@@ -27,7 +27,7 @@ export function Topbar() {
       </div>
 
       {/* Right cluster */}
-      <div className="flex items-center gap-2 md:gap-4 shrink-0">
+      <div className="ml-auto flex items-center gap-2 md:gap-4 shrink-0">
         <div className="hidden sm:flex items-center gap-2 text-sm font-semibold">
           <Briefcase className="h-4 w-4 text-foreground" />
           <span>GPUaaS</span>
