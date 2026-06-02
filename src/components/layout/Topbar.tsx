@@ -30,7 +30,7 @@ export function Topbar() {
       <div className="flex items-center gap-2 md:gap-4 shrink-0">
         <div className="hidden sm:flex items-center gap-2 text-sm font-semibold">
           <Briefcase className="h-4 w-4 text-foreground" />
-          <span>GPON</span>
+          <span>GPUaaS</span>
         </div>
 
         <button className="relative inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted">
