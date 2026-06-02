@@ -118,9 +118,24 @@ function Dashboard() {
           <h2 className="font-semibold mb-1">Ações rápidas</h2>
           <p className="text-xs text-muted-foreground mb-4">Comece em segundos.</p>
           <div className="space-y-2">
-            <Btn className="w-full justify-start"><Plus className="h-4 w-4" /> Novo Pod</Btn>
-            <Btn variant="secondary" className="w-full justify-start"><KeyRound className="h-4 w-4" /> Gerar API Key</Btn>
-            <Btn variant="secondary" className="w-full justify-start"><Boxes className="h-4 w-4" /> Ver catálogo</Btn>
+            <Link
+              to="/pods/deploy"
+              className="inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary-hover h-9 px-3.5 text-sm w-full"
+            >
+              <Plus className="h-4 w-4" /> Novo Pod
+            </Link>
+            <Link
+              to="/api/keys"
+              className="inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none bg-surface border border-border-strong text-foreground hover:bg-muted h-9 px-3.5 text-sm w-full"
+            >
+              <KeyRound className="h-4 w-4" /> Gerar API Key
+            </Link>
+            <Link
+              to="/api/catalog"
+              className="inline-flex items-center justify-center gap-1.5 rounded-md font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none bg-surface border border-border-strong text-foreground hover:bg-muted h-9 px-3.5 text-sm w-full"
+            >
+              <Boxes className="h-4 w-4" /> Ver catálogo
+            </Link>
           </div>
           <div className="mt-6 pt-4 border-t border-border">
             <div className="flex items-center justify-between mb-2">
