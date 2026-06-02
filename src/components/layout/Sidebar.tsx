@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Home, KeyRound, Boxes, Activity, Server, TerminalSquare,
-  LayoutTemplate, Container, CreditCard, Settings, Cpu,
+  LayoutTemplate, Container, CreditCard, Settings,
 } from "lucide-react";
 import type { ComponentType, SVGProps } from "react";
 
